@@ -27,8 +27,8 @@
             </td>
         </tr>
         <tr>
-        <td>Имя</td>
-        <td>{{ user_obj.first_name }} {{ user_obj.last_name }}</td>
+            <td>Имя</td>
+            <td>{{ user_obj.first_name }} {{ user_obj.last_name }}</td>
         </tr>
         <tr>
             <td>Сфера деятельности</td>
@@ -51,6 +51,16 @@
         </tr>
         </tbody>
     </table>
+    <div class="post">
+        {% for favorite in user_obj.favorite_user.all %}
+        <div class="post-image">
+            <div>
+                <img style="width:100%; height:50%" src="{{ favorite.photo.image.url }}" alt="photo image">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 </div>
 
 

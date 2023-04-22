@@ -10,49 +10,46 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="icon" href="https://i.hh.kz/logos/svg/hh.ru__min_.svg?v=11032019" type="image/x-icon"/>
     <title>{% block title %}Gallery{% endblock %}</title>
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 80px">
-    <div class="container">
-        <a href="{% url 'index' %}">
-            <img src="https://i.hh.kz/logos/svg/hh.ru__min_.svg?v=11032019" alt="">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'profile' user.pk %}">
+
+
+<header class="header">
+    <div class="navbar navbar-expand-md">
+        <div class="container">
+            <div class="collapse navbar-collapse">
+                <div class="header__content">
+                    <a href="{% url 'index' %}" class="header__logo" style="text-decoration:None; color:black;"><h1>Gallery</h1></a>
+                    <nav class="header__nav header__nav-d">
+                        <ul class="header__nav-bar">
+                            <li class="header__nav-item">
+                                <a href="{% url 'photo_create' %}" style="color:black;">Добавить фотографию</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    {% if user.is_authenticated %}
+                    <a style="color: black" class="header__link" href="{% url 'profile' user.pk %}">
                         Профиль
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">
+                    <a style="color: black" class="header__link" href="{% url 'logout' %}">
                         Выйти
                     </a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register' %}">
+                    {% else %}
+                    <a style="color: black" class="header__link" href="{% url 'register' %}">
                         Зарегестрироваться
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">
+                    <a style="color: black" class="header__link" href="{% url 'login' %}">
                         Войти
                     </a>
-                </li>
-                {% endif %}
-            </ul>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
-</nav>
+</header>
+
 <div class="container">
     {% block content %}{% endblock %}
 </div>

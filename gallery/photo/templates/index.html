@@ -1,7 +1,51 @@
 {% extends 'base/base.html' %}
-{% for photo in photos %}
-<img src="{{ photo.image.url }}" alt="photo image">
-{{ photo.signature }}
-{{ photo.author }}
-{{ photo.created_at }}
-{% endfor %}
+{% load django_bootstrap5 %}
+{% block content %}
+
+<div class="container">
+    <div class="post">
+        {% for photo in photos %}
+        <div style="margin-top:45px;" class="post-top">
+            <div class="post-top__left">
+                {% if photo.author.avatar %}
+                <img src="{{ photo.author.avatar.url }}" alt="user image">
+                <a style="text-decoration:none; color:black;" href="{% url 'profile' photo.author.pk %}">
+                    {{ post.author }}</a>
+                {% else %}
+                <img class="avatar" style="width:150px; height:150px"
+                     src="../../../uploads/user_pic/default.jpg"
+                     alt="user image">
+                {% endif %}
+                <a style="text-decoration:none; color:black;" href="{% url 'profile' photo.author.pk %}">
+                    {{ photo.author }}</a>
+            </div>
+
+        </div>
+        <div class="post-image">
+            <div>
+                <img style="width:100%; height:50%" src="{{ photo.image.url }}" alt="photo image">
+            </div>
+        </div>
+        <div class="post-content">
+            <div style="padding-top:30px" class="post-activity">
+                <form method="post" action="{% url 'to_favorite' photo.pk %}">
+                    {% csrf_token %}
+                    {% if request.user in user_obj.favorite_user.all %}
+                    <button class="btn btn-danger" type="submit">Удалить из избранного</button>
+                    {% else %}
+                    <button class="btn btn-primary" type="submit">Добавить в избранное</button>
+                    {% endif %}
+                </form>
+                <a href="{% url 'photo_detail' photo.pk %}" class="btn btn-warning">Подробнее</a>
+            </div>
+            <div class="post-text">
+                <span>{{ photo.author }}</span> {{ photo.signature }}
+                <p style="font-size:15px; color:grey;">{{ photo.created_at }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
