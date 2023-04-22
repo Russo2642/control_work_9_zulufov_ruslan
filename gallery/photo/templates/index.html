@@ -31,7 +31,7 @@
                 {% if user.is_authenticated %}
                 <form method="post" action="{% url 'to_favorite' photo.pk %}">
                     {% csrf_token %}
-                    {% if request.user in request.user.favorite_user.all %}
+                    {% if request.user in user_obj.favorite_user.all %}
                     <button class="btn btn-danger" type="submit">Удалить из избранного</button>
                     {% else %}
                     <button class="btn btn-primary" type="submit">Добавить в избранное</button>
