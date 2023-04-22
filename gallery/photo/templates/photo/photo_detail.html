@@ -18,8 +18,10 @@
         </div>
     </div>
 </div>
-{% if photo.author == request.user %}
+{% if perms.photo.change_photo or photo.author == request.user %}
 <a class="btn btn-primary" href="{% url 'photo_update' photo.pk %}">Редактировать фото</a>
+{% endif %}
+{% if perms.photo.delete_photo or photo.author == request.user %}
 <form method="POST" action="{% url 'photo_delete' photo.pk %}">
     {% csrf_token %}
     <input type="submit" class="btn btn-danger" value="Удалить">

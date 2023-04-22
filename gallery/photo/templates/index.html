@@ -12,7 +12,7 @@
                 <a style="text-decoration:none; color:black;" href="{% url 'profile' photo.author.pk %}">
                     {{ post.author }}</a>
                 {% else %}
-                <img class="avatar" style="width:150px; height:150px"
+                <img class="avatar" style="width:40px; height:40px"
                      src="../../../uploads/user_pic/default.jpg"
                      alt="user image">
                 {% endif %}
@@ -28,14 +28,16 @@
         </div>
         <div class="post-content">
             <div style="padding-top:30px" class="post-activity">
+                {% if user.is_authenticated %}
                 <form method="post" action="{% url 'to_favorite' photo.pk %}">
                     {% csrf_token %}
-                    {% if request.user in user_obj.favorite_user.all %}
+                    {% if request.user in request.user.favorite_user.all %}
                     <button class="btn btn-danger" type="submit">Удалить из избранного</button>
                     {% else %}
                     <button class="btn btn-primary" type="submit">Добавить в избранное</button>
                     {% endif %}
                 </form>
+                {% endif %}
                 <a href="{% url 'photo_detail' photo.pk %}" class="btn btn-warning">Подробнее</a>
             </div>
             <div class="post-text">
