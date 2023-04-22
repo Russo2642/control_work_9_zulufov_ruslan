@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from photo.forms import PhotoForm
@@ -23,7 +23,7 @@ class PhotoDetailView(DetailView):
     model = Photo
 
 
-class PhotoUpdateView(UpdateView):
+class PhotoUpdateView(UserPassesTestMixin, UpdateView):
     template_name = 'photo/photo_update.html'
     model = Photo
     form_class = PhotoForm
@@ -31,9 +31,15 @@ class PhotoUpdateView(UpdateView):
     def get_success_url(self):
         return reverse('photo_detail', kwargs={'pk': self.object.pk})
 
+    def test_func(self):
+        return self.get_object().author == self.request.user or self.request.user.has_perm('photo.change_photo')
 
-class PhotoDeleteView(DeleteView):
+
+class PhotoDeleteView(UserPassesTestMixin, DeleteView):
     model = Photo
 
     def get_success_url(self):
         return reverse('profile', kwargs={'pk': self.object.author_id})
+
+    def test_func(self):
+        return self.get_object().author == self.request.user or self.request.user.has_perm('photo.delete_photo')

@@ -55,7 +55,7 @@ class RegisterView(CreateView):
         return self.render_to_response(context)
 
 
-class ProfileView(UserPassesTestMixin, DetailView):
+class ProfileView(DetailView):
     model = get_user_model()
     template_name = 'user_detail.html'
     context_object_name = 'user_obj'
@@ -63,9 +63,6 @@ class ProfileView(UserPassesTestMixin, DetailView):
     def get_context_data(self, **kwargs):
         kwargs["user_change_form"] = UserChangeForm(instance=self.request.user)
         return super().get_context_data(**kwargs)
-
-    def test_func(self):
-        return self.get_object() == self.request.user
 
 
 class UserChangeView(UserPassesTestMixin, UpdateView):
