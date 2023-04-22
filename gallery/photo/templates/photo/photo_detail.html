@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-<a href="{% url 'photo_create' %}">Добавить фото</a>
+<img src="{{ photo.image.url }}" alt="photo image">
+{{ photo.signature }}
+{{ photo.author }}
 </body>
 </html>
