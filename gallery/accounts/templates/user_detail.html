@@ -1,0 +1,57 @@
+{% extends 'base/base.html' %}
+{% load django_bootstrap5 %}
+{% block menu %}
+{% if user_obj == request.user %}
+<form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <input style="width:100px" type="submit" class="btn btn-danger" value="Выйти">
+</form>
+{% endif %}
+{% endblock %}
+{% block content %}
+
+
+<div class="container">
+    <table id="user-table">
+        <tbody>
+        <tr>
+            <td>
+                {% if user_obj.avatar %}
+                <img style="width:150px; height:150px" class="avatar" src="{{ user_obj.avatar.url }}"
+                     alt="user image">
+                {% else %}
+                <img class="avatar" style="width:150px; height:150px"
+                     src="../../../uploads/user_pic/default.jpg"
+                     alt="user image">
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+        <td>Имя</td>
+        <td>{{ user_obj.first_name }} {{ user_obj.last_name }}</td>
+        </tr>
+        <tr>
+            <td>Сфера деятельности</td>
+            <td>{{ user_obj.activity }}</td>
+        </tr>
+        <tr>
+            <td>Электронная почта</td>
+            <td>{{ user_obj.email }}</td>
+        </tr>
+        <tr>
+            <td>
+                {% if user_obj == request.user %}
+                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal"
+                        data-bs-target="#ModalChangeProfile">
+                    Редактировать профиль
+                </button>
+                {% endif %}
+                {% include 'partial/user_change.html' %}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}
